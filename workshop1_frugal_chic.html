@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Воркшоп 1 — Продуктове мислення</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23c8b89a'/><text y='68' x='50' text-anchor='middle' font-size='56' font-family='serif' fill='white'>✦</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #faf7f2;
+    --cream2: #f4f0e8;
+    --cream3: #ede8dc;
+    --sand: #d9cfc0;
+    --taupe: #c8b89a;
+    --taupe-dark: #9e8e78;
+    --brown: #6b5c48;
+    --brown-dark: #3d3028;
+    --text: #2a221a;
+    --text-mid: #6b5c48;
+    --text-light: #9e8e78;
+    --accent: #b8936a;
+    --accent-light: #e8d8c4;
+    --border: #e0d8cc;
+    --border-light: #ede8e0;
+  }
+  body {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.8;
+  }
+  .hero {
+    background: var(--cream2);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '✦  ✦  ✦';
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: var(--taupe);
+    margin-bottom: 2rem;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--taupe-dark);
+    border: 1px solid var(--sand);
+    padding: 5px 18px;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 1.15;
+    color: var(--brown-dark);
+    letter-spacing: 0.02em;
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-light);
+    letter-spacing: 0.08em;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .hero-line { width: 60px; height: 1px; background: var(--taupe); margin: 2rem auto 0; }
+
+  .meta-bar { background: var(--cream3); border-bottom: 1px solid var(--border); padding: 0.75rem 2rem; }
+  .meta-bar-inner {
+    max-width: 800px; margin: 0 auto;
+    display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+  }
+  .meta-item {
+    font-size: 11px; font-weight: 400; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--text-light);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .meta-dot { color: var(--taupe); }
+
+  .layout { max-width: 800px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+  .toc { border: 1px solid var(--border); padding: 2rem; margin-bottom: 3.5rem; background: #fff; }
+  .toc::before {
+    content: 'ЗМІСТ'; font-size: 10px; font-weight: 400; letter-spacing: 0.3em;
+    color: var(--taupe); display: block; text-align: center; margin-bottom: 1.5rem;
+  }
+  .toc-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2px; }
+  .toc-list li a {
+    display: flex; align-items: center; gap: 10px; text-decoration: none;
+    color: var(--text-mid); font-size: 13px; font-weight: 300; letter-spacing: 0.04em;
+    padding: 6px 8px; transition: color 0.2s;
+  }
+  .toc-list li a:hover { color: var(--accent); }
+  .toc-num { font-size: 12px; color: var(--taupe); font-style: italic; font-family: 'Cormorant Garamond', serif; min-width: 24px; }
+
+  .section { margin-bottom: 3rem; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1rem;
+    margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-light);
+  }
+  .section-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: var(--taupe); }
+  .section h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--brown-dark); letter-spacing: 0.02em; }
+
+  .card { background: #fff; border: 1px solid var(--border-light); padding: 1.25rem 1.5rem; margin-bottom: 1rem; transition: border-color 0.2s; }
+  .card:hover { border-color: var(--sand); }
+  .card.accent-taupe { border-left: 2px solid var(--taupe); }
+  .card.accent-brown { border-left: 2px solid var(--brown); }
+  .card.accent-accent { border-left: 2px solid var(--accent); }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+  .card-label { font-size: 10px; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--taupe); margin-bottom: 0.6rem; }
+  .card p { font-size: 13px; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+
+  .tag-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 0.75rem; }
+  .tag { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 10px; border: 1px solid var(--sand); color: var(--text-light); font-weight: 400; }
+
+  .collapsible-header {
+    display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+    padding: 0.9rem 1.25rem; background: var(--cream2); border: 1px solid var(--border-light);
+    margin-bottom: 2px; user-select: none; transition: background 0.15s, border-color 0.15s;
+  }
+  .collapsible-header:hover { background: var(--accent-light); border-color: var(--sand); }
+  .collapsible-header.open { background: var(--accent-light); border-color: var(--taupe); margin-bottom: 0; }
+  .collapsible-title { font-size: 13px; font-weight: 300; letter-spacing: 0.05em; color: var(--brown); }
+  .collapsible-arrow { font-size: 10px; color: var(--taupe); transition: transform 0.2s; }
+  .collapsible-arrow.open { transform: rotate(180deg); }
+  .collapsible-body {
+    display: none; padding: 1.25rem 1.5rem; background: #fff;
+    border: 1px solid var(--taupe); border-top: none; margin-bottom: 8px;
+    font-size: 13px; color: var(--text-mid); line-height: 1.7; font-weight: 300;
+  }
+  .collapsible-body.open { display: block; }
+
+  .quote-block {
+    border-left: 2px solid var(--taupe); padding: 0.875rem 1.5rem; margin: 1.25rem 0;
+    background: var(--cream2); font-style: italic;
+    font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--brown);
+  }
+
+  .key-insight {
+    background: var(--accent-light); border: 1px solid var(--sand);
+    padding: 1rem 1.25rem; margin-bottom: 0.75rem;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .key-insight-icon { font-size: 12px; flex-shrink: 0; margin-top: 4px; color: var(--accent); }
+  .key-insight p { font-size: 13px; color: var(--brown); line-height: 1.65; font-weight: 300; }
+
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 10px; font-size: 13px;
+    color: var(--text-mid); padding: 6px 0; border-bottom: 1px solid var(--border-light); font-weight: 300;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon { color: var(--taupe); flex-shrink: 0; font-size: 11px; margin-top: 5px; }
+
+  .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .compare-card { background: #fff; border: 1px solid var(--border-light); padding: 1.25rem; }
+  .compare-card.bad { border-top: 2px solid #c9a99a; }
+  .compare-card.good { border-top: 2px solid var(--taupe); }
+  .compare-card-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.75rem; font-weight: 400; }
+  .compare-card.bad .compare-card-label { color: #c9a99a; }
+  .compare-card.good .compare-card-label { color: var(--taupe-dark); }
+  .compare-card ul { list-style: none; padding: 0; }
+  .compare-card ul li { font-size: 13px; color: var(--text-mid); padding: 3px 0 3px 14px; position: relative; line-height: 1.55; font-weight: 300; }
+  .compare-card.bad ul li::before { content: '—'; position: absolute; left: 0; color: #c9a99a; }
+  .compare-card.good ul li::before { content: '✓'; position: absolute; left: 0; color: var(--taupe); }
+
+  .prompt-box {
+    background: var(--brown-dark); color: var(--cream3); padding: 1.5rem 1.75rem;
+    margin-bottom: 1rem; font-size: 13px; line-height: 2; font-weight: 300; letter-spacing: 0.04em; white-space: pre-line;
+  }
+  .prompt-box::before { content: 'ПРОМТ'; font-size: 10px; letter-spacing: 0.3em; color: var(--taupe); display: block; margin-bottom: 0.75rem; }
+  .prompt-highlight { color: var(--taupe); font-weight: 400; }
+
+  .term-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.75rem; }
+  .term-card { background: #fff; border: 1px solid var(--border-light); padding: 1rem 1.25rem; transition: border-color 0.2s; }
+  .term-card:hover { border-color: var(--sand); }
+  .term-card dt { font-size: 11px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe-dark); margin-bottom: 5px; }
+  .term-card dd { font-size: 13px; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
+
+  .retro-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .retro-card { padding: 1.25rem; border: 1px solid var(--border-light); background: #fff; }
+  .retro-card-label { font-size: 10px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light); }
+  .retro-card ul { list-style: none; padding: 0; }
+  .retro-card ul li { font-size: 13px; color: var(--text-mid); padding: 4px 0; border-bottom: 1px solid var(--border-light); line-height: 1.5; font-weight: 300; }
+  .retro-card ul li:last-child { border-bottom: none; }
+
+  .divider { display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border-light); }
+  .divider-ornament { font-size: 10px; color: var(--taupe); letter-spacing: 0.3em; }
+
+  .footer-note { margin-top: 4rem; padding: 2rem; background: var(--cream2); border: 1px solid var(--border); text-align: center; }
+  .footer-note::before { content: '✦'; display: block; font-size: 14px; color: var(--taupe); margin-bottom: 1rem; }
+  .footer-note p { font-size: 12px; font-weight: 300; letter-spacing: 0.1em; color: var(--text-light); line-height: 2; }
+
+  @media (max-width: 600px) {
+    .comparison-grid { grid-template-columns: 1fr; }
+    .retro-grid { grid-template-columns: 1fr; }
+    .meta-bar-inner { gap: 1rem; justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">WOW PM Bootcamp 2.0 &nbsp;·&nbsp; Воркшоп №1</div>
+  <h1>Продуктове мислення<br>та <em>якісна специфікація</em></h1>
+  <p class="hero-sub">Конспект першого воркшопу — від хаотичного ТЗ до структурованої спеки з AI</p>
+  <div class="hero-line"></div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-bar-inner">
+    <span class="meta-item"><span class="meta-dot">·</span> Тривалість ~2.5 год</span>
+    <span class="meta-item"><span class="meta-dot">·</span> Фасилітатор: Аня Клімушка</span>
+    <span class="meta-item"><span class="meta-dot">·</span> Продукт-кейс: Craisee.com</span>
+    <span class="meta-item"><span class="meta-dot">·</span> Claude · ChatGPT · Mermaid · FigJam</span>
+  </div>
+</div>
+
+<div class="layout">
+
+  <nav class="toc">
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">i.</span> Про продукт-кейс</a></li>
+      <li><a href="#s2"><span class="toc-num">ii.</span> Проблема: погана спека</a></li>
+      <li><a href="#s3"><span class="toc-num">iii.</span> Screen Flow як рятівник</a></li>
+      <li><a href="#s4"><span class="toc-num">iv.</span> Гарна специфікація</a></li>
+      <li><a href="#s5"><span class="toc-num">v.</span> Mermaid User Flow + AI</a></li>
+      <li><a href="#s6"><span class="toc-num">vi.</span> Інструменти та промти</a></li>
+      <li><a href="#s7"><span class="toc-num">vii.</span> Ключові терміни</a></li>
+      <li><a href="#s8"><span class="toc-num">viii.</span> Ретроспектива</a></li>
+    </ul>
+  </nav>
+
+  <section class="section" id="s1">
+    <div class="section-header">
+      <span class="section-num">i.</span>
+      <h2>Продукт-кейс: Craisee.com</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card accent-taupe">
+        <div class="card-label">Що це</div>
+        <p>Платформа для генерації контенту за допомогою AI: зображення, відео, аудіо, тексти. Generative AI із набором різних моделей.</p>
+        <div class="tag-list"><span class="tag">GenAI</span><span class="tag">Web-only</span><span class="tag">B2B + B2C</span></div>
+      </div>
+      <div class="card accent-brown">
+        <div class="card-label">Ринки</div>
+        <p>USA, Європа, Корея. Причина закриття — брак бюджету на конкуренцію з Anthropic та OpenAI.</p>
+        <div class="tag-list"><span class="tag">Global</span><span class="tag">Стартап</span></div>
+      </div>
+    </div>
+    <div onclick="toggleCollapse(this)" class="collapsible-header">
+      <span class="collapsible-title">B2C та B2B користувачі</span>
+      <span class="collapsible-arrow">▾</span>
+    </div>
+    <div class="collapsible-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+        <div>
+          <p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--taupe);margin-bottom:0.75rem;font-weight:400;">B2C</p>
+          <ul style="list-style:none;padding:0;">
+            <li style="font-size:13px;padding:3px 0;color:var(--text-mid);font-weight:300;">— Контент-креатори, SMM-щики</li>
+            <li style="font-size:13px;padding:3px 0;color:var(--text-mid);font-weight:300;">— Дизайнери, відеомейкери</li>
+            <li style="font-size:13px;padding:3px 0;color:var(--text-mid);font-weight:300;">— Малий та середній бізнес</li>
+            <li style="font-size:13px;padding:3px 0;color:var(--text-mid);font-weight:300;">— Маркетологи</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--taupe);margin-bottom:0.75rem;font-weight:400;">B2B</p>
+          <ul style="list-style:none;padding:0;">
+            <li style="font-size:13px;padding:3px 0;color:var(--text-mid);font-weight:300;">— Рекламні та креативні агенції</li>
+            <li style="font-size:13px;padding:3px 0;color:var(--text-mid);font-weight:300;">— Агенції перформанс-маркетингу</li>
+            <li style="font-size:13px;padding:3px 0;color:var(--text-mid);font-weight:300;">— Продакшн-компанії</li>
+            <li style="font-size:13px;padding:3px 0;color:var(--text-mid);font-weight:300;">— Корпоративні команди</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-ornament">✦</span></div>
+
+  <section class="section" id="s2">
+    <div class="section-header">
+      <span class="section-num">ii.</span>
+      <h2>Проблема: погана специфікація</h2>
+    </div>
+    <div class="quote-block">Спеку згенерував CTO за допомогою ChatGPT — дуже швиденько. Прийшов із нею до нас. Далі почався хаос.</div>
+    <div class="comparison-grid">
+      <div class="compare-card bad">
+        <div class="compare-card-label">Погана спека</div>
+        <ul>
+          <li>Один великий блок нечитабельного тексту</li>
+          <li>Відсутній Screen Flow</li>
+          <li>Поп-апи "з нізвідки"</li>
+          <li>Немає описів станів кнопок</li>
+          <li>Немає референсів</li>
+          <li>Нечіткі acceptance criteria</li>
+          <li>Відсутній Blank State</li>
+        </ul>
+      </div>
+      <div class="compare-card good">
+        <div class="compare-card-label">Гарна спека</div>
+        <ul>
+          <li>Структурована, з чіткими блоками</li>
+          <li>Є Screen Flow з логічним зв'язком</li>
+          <li>Детальний опис кожного стану UI</li>
+          <li>Описані edge-кейси</li>
+          <li>Є готові copy-тексти</li>
+          <li>Лінки на референсні скрини</li>
+          <li>Виділені open questions</li>
+        </ul>
+      </div>
+    </div>
+    <div class="key-insight">
+      <span class="key-insight-icon">◈</span>
+      <p>Наслідок поганої спеки: дизайнер-джун не розуміє очікувань і малює "в сліпу". Результат — неузгоджені екрани, втрачені дні, "прожигання" бюджету клієнта.</p>
+    </div>
+    <div onclick="toggleCollapse(this)" class="collapsible-header">
+      <span class="collapsible-title">Що менеджер міг зробити по-іншому</span>
+      <span class="collapsible-arrow">▾</span>
+    </div>
+    <div class="collapsible-body">
+      <ul class="checklist">
+        <li><span class="check-icon">✦</span>Зробити Discovery-сесію з клієнтом перед передачею дизайнеру</li>
+        <li><span class="check-icon">✦</span>Скласти чіткий Screen Flow зі всіма попапами та переходами</li>
+        <li><span class="check-icon">✦</span>Надати референси та прототип для орієнтації</li>
+        <li><span class="check-icon">✦</span>Прописати Definition of Done та Acceptance Criteria</li>
+        <li><span class="check-icon">✦</span>Обов'язковий онбординг дизайнера на продукт як користувача</li>
+        <li><span class="check-icon">✦</span>Залучити сеньор-дизайнера хоча б на першій сесії</li>
+        <li><span class="check-icon">✦</span>Налаштувати м'який feedback-процес (The Culture Map)</li>
+        <li><span class="check-icon">✦</span>Завжди починати фідбек із похвали позитивного</li>
+        <li><span class="check-icon">✦</span>Записувати дзвінки та фіксувати рішення в документах</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-ornament">✦</span></div>
+
+  <section class="section" id="s3">
+    <div class="section-header">
+      <span class="section-num">iii.</span>
+      <h2>Screen Flow як рятівник</h2>
+    </div>
+    <div class="card accent-taupe">
+      <div class="card-label">Що таке Screen Flow</div>
+      <p>Послідовна схема скринів із зазначенням дій на кожному екрані. Показує логічний зв'язок між усіма екранами, попапами та станами інтерфейсу.</p>
+    </div>
+    <div class="key-insight">
+      <span class="key-insight-icon">◈</span>
+      <p>Дизайнери часто не тестують продукт. Без Screen Flow вони працюють наосліп і пропускають критичні стани. Blank State — типовий приклад того, що забувають.</p>
+    </div>
+    <div onclick="toggleCollapse(this)" class="collapsible-header">
+      <span class="collapsible-title">Приклад вправи: що додати у Screen Flow</span>
+      <span class="collapsible-arrow">▾</span>
+    </div>
+    <div class="collapsible-body">
+      <ul style="list-style:none;padding:0;">
+        <li style="font-size:13px;padding:5px 0;color:var(--text-mid);font-weight:300;border-bottom:1px solid var(--border-light);">— Модальне вікно вибору кількості кредитів (Refill Credits)</li>
+        <li style="font-size:13px;padding:5px 0;color:var(--text-mid);font-weight:300;border-bottom:1px solid var(--border-light);">— Confirmation / Rejected стан після додавання платіжного методу</li>
+        <li style="font-size:13px;padding:5px 0;color:var(--text-mid);font-weight:300;border-bottom:1px solid var(--border-light);">— Порожній стан сторінки інвойсів (Blank State)</li>
+        <li style="font-size:13px;padding:5px 0;color:var(--text-mid);font-weight:300;border-bottom:1px solid var(--border-light);">— Filter by Text / Audio / Video у "My Assets"</li>
+        <li style="font-size:13px;padding:5px 0;color:var(--text-mid);font-weight:300;border-bottom:1px solid var(--border-light);">— Multi-select дії для кількох активів</li>
+        <li style="font-size:13px;padding:5px 0;color:var(--text-mid);font-weight:300;">— Add Billing Method as Default / Delete Billing Method</li>
+      </ul>
+      <div class="quote-block" style="margin-top:1rem;">Правило: якщо є чекбокси → мають бути показані дії над обраними елементами.</div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-ornament">✦</span></div>
+
+  <section class="section" id="s4">
+    <div class="section-header">
+      <span class="section-num">iv.</span>
+      <h2>Анатомія гарної специфікації</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card accent-taupe"><div class="card-label">Структура</div><p>Розбита на логічні секції. Таблиці де доречно. Заголовки, не суцільний текст.</p></div>
+      <div class="card accent-brown"><div class="card-label">Деталізація UI</div><p>Всі стани кнопок, copy-тексти, формати файлів, edge-кейси, Blank States.</p></div>
+      <div class="card accent-taupe"><div class="card-label">Зрозумілість</div><p>Спека для всієї команди: дизайнер, розробник, QA, клієнт. Не окремо для кожного.</p></div>
+      <div class="card accent-accent"><div class="card-label">Open Questions</div><p>Виділено окремо питання, які ще відкриті. Читач одразу бачить нерозв'язане.</p></div>
+    </div>
+    <div class="key-insight">
+      <span class="key-insight-icon">◈</span>
+      <p>Bus Factor: вся ключова інформація має жити в документах, а не в голові 1–2 людей. Якщо Bus Factor = 1 — проект у зоні ризику.</p>
+    </div>
+    <div onclick="toggleCollapse(this)" class="collapsible-header">
+      <span class="collapsible-title">Definition of Done · Definition of Ready · Acceptance Criteria</span>
+      <span class="collapsible-arrow">▾</span>
+    </div>
+    <div class="collapsible-body">
+      <dl style="display:grid;grid-template-columns:1fr;gap:8px;">
+        <div class="term-card"><dt>Acceptance Criteria</dt><dd>Чіткі умови, за яких конкретна user story вважається виконаною. Відрізняються для кожної задачі.</dd></div>
+        <div class="term-card"><dt>Definition of Done</dt><dd>Організаційні критерії завершення: закриті баги, smoke-testing, задеплоєно на прод. Однакові для всіх user stories.</dd></div>
+        <div class="term-card"><dt>Definition of Ready</dt><dd>Критерії готовності user story до розробки: проведено Discovery, додані макапи, описані всі стани.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-ornament">✦</span></div>
+
+  <section class="section" id="s5">
+    <div class="section-header">
+      <span class="section-num">v.</span>
+      <h2>Mermaid User Flow та AI</h2>
+    </div>
+    <div class="card accent-taupe">
+      <div class="card-label">Що таке Mermaid</div>
+      <p>Текстовий формат для створення діаграм: ти пишеш або генеруєш код — він автоматично стає красивою схемою. FigJam конвертує Mermaid-код у візуальну діаграму через Ctrl+V.</p>
+    </div>
+    <div onclick="toggleCollapse(this)" class="collapsible-header">
+      <span class="collapsible-title">Як генерувати User Flow через AI</span>
+      <span class="collapsible-arrow">▾</span>
+    </div>
+    <div class="collapsible-body">
+      <ol style="font-size:13px;padding-left:18px;line-height:2;color:var(--text-mid);font-weight:300;margin-bottom:10px;">
+        <li>Завантажити PDF/документ зі специфікацією</li>
+        <li>Використати промт (нижче)</li>
+        <li>Отримати Mermaid-код або одразу діаграму</li>
+        <li>Скопіювати код → відкрити FigJam → Ctrl+V</li>
+        <li>Всі елементи стають редагованими у FigJam</li>
+      </ol>
+      <div class="quote-block">Розробники просто цілувати вас будуть за цей юзерфлоу — він допомагає зрозуміти специфікацію.</div>
+    </div>
+    <div class="prompt-box">Generate a <span class="prompt-highlight">Mermaid flowchart</span> for the user flow based on the attached specification document.
+
+Include all screens, modals, transitions, and edge cases.
+
+Format as <span class="prompt-highlight">valid Mermaid syntax</span> only, no explanations.</div>
+    <div class="key-insight">
+      <span class="key-insight-icon">◈</span>
+      <p>AI не завжди дає ідеальний результат. Завжди перечитуй — людина має контролювати вихідний матеріал. Сліпо не довіряй навіть гарному результату.</p>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-ornament">✦</span></div>
+
+  <section class="section" id="s6">
+    <div class="section-header">
+      <span class="section-num">vi.</span>
+      <h2>AI-інструменти та практичні поради</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card accent-taupe"><div class="card-label">Claude</div><p>Найкраще для специфікацій. Працює як BA: пропонує питання розробників, обґрунтовує рішення через assumptions.</p><div class="tag-list"><span class="tag">Специфікації</span><span class="tag">HTML-файли</span></div></div>
+      <div class="card accent-brown"><div class="card-label">ChatGPT</div><p>Добре генерує Mermaid-діаграми. Платна версія одразу видає готову діаграму без проміжного коду.</p><div class="tag-list"><span class="tag">Mermaid</span><span class="tag">User Flow</span></div></div>
+    </div>
+    <div onclick="toggleCollapse(this)" class="collapsible-header">
+      <span class="collapsible-title">Як показати прототип клієнту без дизайнера</span>
+      <span class="collapsible-arrow">▾</span>
+    </div>
+    <div class="collapsible-body">
+      <ul class="checklist">
+        <li><span class="check-icon">✦</span>Підготувати нормальну специфікацію</li>
+        <li><span class="check-icon">✦</span>Зібрати брендбук клієнта: кольори, шрифти, лого</li>
+        <li><span class="check-icon">✦</span>Завантажити шрифти прямо в Claude</li>
+        <li><span class="check-icon">✦</span>Попросити Claude: "Зроби HTML-файл за цією специфікацією"</li>
+        <li><span class="check-icon">✦</span>В Claude можна перемикати розміри девайсів у переглядачі</li>
+      </ul>
+      <div class="quote-block">Це не замінює роботу дизайнера — це інструмент погодження для клієнта, щоб proof of concept відбувся до розробки.</div>
+    </div>
+    <div onclick="toggleCollapse(this)" class="collapsible-header">
+      <span class="collapsible-title">Промт для покращення специфікації</span>
+      <span class="collapsible-arrow">▾</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="prompt-box">You are a senior Product Manager. Review the attached specification and:
+
+1. <span class="prompt-highlight">Restructure</span> with clear sections
+2. <span class="prompt-highlight">Add missing details</span>: states, copy, edge cases
+3. <span class="prompt-highlight">Highlight open questions</span>
+4. Make it readable for the <span class="prompt-highlight">entire team</span>
+
+Return full improved spec in Markdown.</div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-ornament">✦</span></div>
+
+  <section class="section" id="s7">
+    <div class="section-header">
+      <span class="section-num">vii.</span>
+      <h2>Ключові терміни</h2>
+    </div>
+    <dl class="term-list">
+      <div class="term-card"><dt>Screen Flow</dt><dd>Послідовна схема всіх скринів із логічними переходами та попапами. Обов'язковий елемент передачі задачі дизайнеру.</dd></div>
+      <div class="term-card"><dt>Blank State</dt><dd>Порожній вигляд сторінки/блоку, коли немає контенту. Дизайнери часто забувають його показати.</dd></div>
+      <div class="term-card"><dt>Bus Factor</dt><dd>Кількість людей-носіїв критичної інформації. Має бути більше 1. Якщо = 1 — проект у зоні ризику.</dd></div>
+      <div class="term-card"><dt>Mermaid</dt><dd>Текстовий синтаксис для автоматичного генерування діаграм. Підтримується у FigJam, Notion, GitHub.</dd></div>
+      <div class="term-card"><dt>Lean Methodology</dt><dd>Фреймворк для малих самоорганізованих команд, що свідомо прибирає зайві зустрічі та процеси.</dd></div>
+      <div class="term-card"><dt>The Culture Map</dt><dd>Книга Ерін Мейер про різницю ділових культур. Допомагає давати м'який фідбек міжнародним командам.</dd></div>
+    </dl>
+  </section>
+
+  <div class="divider"><span class="divider-ornament">✦</span></div>
+
+  <section class="section" id="s8">
+    <div class="section-header">
+      <span class="section-num">viii.</span>
+      <h2>Ретроспектива воркшопу</h2>
+    </div>
+    <div class="retro-grid">
+      <div class="retro-card">
+        <div class="retro-card-label">Інсайти</div>
+        <ul>
+          <li>Якісна спека = економія часу всієї команди</li>
+          <li>Яка спека — такий і результат дизайну</li>
+          <li>Спека для всієї команди, не тільки дизайнера</li>
+          <li>Mermaid — потужний інструмент для розробників</li>
+          <li>AI добре замінює рутину документування</li>
+        </ul>
+      </div>
+      <div class="retro-card">
+        <div class="retro-card-label">Застосую</div>
+        <ul>
+          <li>Спробую промт для ТЗ дизайнеру</li>
+          <li>Генерувати Mermaid зі специфікацій</li>
+          <li>Промти для планування DevOps-задач</li>
+          <li>Написання документації через AI</li>
+          <li>Пройти флоу на своєму реальному проекті</li>
+        </ul>
+      </div>
+      <div class="retro-card">
+        <div class="retro-card-label">Питання</div>
+        <ul>
+          <li>Як впровадити AI у весь процес?</li>
+          <li>Як погодити прототип з клієнтом без дизайнера?</li>
+          <li>Як почати активніше використовувати AI? → почати з малого!</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-note">
+    <p>WOW PM Bootcamp 2.0 &nbsp;·&nbsp; Воркшоп №1<br>
+    Наступний воркшоп: робота з командою та процесами<br>
+    Домашнє завдання: зроби HTML-конспект за допомогою Claude</p>
+  </div>
+
+</div>
+
+<script>
+function toggleCollapse(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.collapsible-arrow');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+}
+</script>
+</body>
+</html>
