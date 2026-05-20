@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Checklist — WOW PM Bootcamp 2.0</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='0' fill='%23000'/><text y='72' x='50' text-anchor='middle' font-size='60' font-family='serif' fill='white'>✓</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Didact+Gothic&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --black2: #111111;
+    --black3: #1a1a1a;
+    --charcoal: #2a2a2a;
+    --gray: #888;
+    --gray-light: #aaa;
+    --offwhite: #f5f2ed;
+    --cream: #ede9e1;
+    --gold: #c9a84c;
+    --gold-light: #e4c97a;
+    --gold-dim: #7a6430;
+    --red: #8b1a1a;
+    --white: #faf8f5;
+    --border: rgba(201,168,76,0.25);
+    --border-bright: rgba(201,168,76,0.6);
+  }
+
+  body {
+    font-family: 'Didact Gothic', sans-serif;
+    background: var(--black);
+    color: var(--offwhite);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--black);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-top {
+    display: flex;
+    align-items: stretch;
+    min-height: 320px;
+  }
+  .hero-left {
+    flex: 1;
+    padding: 4rem 3rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 3rem; right: 3rem;
+    height: 1px;
+    background: var(--border);
+  }
+  .hero-right {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: var(--black2);
+    position: relative;
+  }
+  .hero-right::before {
+    content: 'THE DEVIL';
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+  }
+  .hero-issue {
+    font-family: 'Didact Gothic', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-issue::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--gray-light);
+    letter-spacing: 0.03em;
+    max-width: 420px;
+  }
+  .hero-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 7rem;
+    font-weight: 900;
+    color: var(--black3);
+    line-height: 1;
+    user-select: none;
+  }
+  .hero-number span {
+    font-size: 1.5rem;
+    color: var(--gold);
+    vertical-align: top;
+    margin-top: 1rem;
+    display: inline-block;
+  }
+  .hero-caption {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  .meta-strip {
+    display: flex;
+    border-top: 1px solid var(--border);
+  }
+  .meta-item {
+    flex: 1;
+    padding: 0.75rem 1.5rem;
+    border-right: 1px solid var(--border);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .meta-item:last-child { border-right: none; }
+  .meta-item span { color: var(--gold); }
+
+  /* ─── LAYOUT ─── */
+  .layout {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* ─── PHASE HEADERS ─── */
+  .phase {
+    margin-bottom: 2.5rem;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    min-width: 48px;
+  }
+  .phase-title-block {}
+  .phase-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 3px;
+  }
+  .phase-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+  .phase-title em { font-style: italic; color: var(--gold-light); }
+
+  /* ─── CHECKLIST ─── */
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.5rem;
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 0.875rem 1.25rem;
+    background: var(--black2);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    user-select: none;
+    position: relative;
+  }
+  .check-item:hover { background: var(--black3); border-color: var(--border); }
+  .check-item.done { background: rgba(201,168,76,0.06); border-color: rgba(201,168,76,0.2); }
+  .check-item.done .check-box { background: var(--gold); border-color: var(--gold); }
+  .check-item.done .check-box::after { opacity: 1; }
+  .check-item.done .check-text { color: var(--gray); text-decoration: line-through; text-decoration-color: var(--gold-dim); }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--gold-dim);
+    flex-shrink: 0;
+    margin-top: 2px;
+    position: relative;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .check-box::after {
+    content: '';
+    position: absolute;
+    left: 4px; top: 1px;
+    width: 8px; height: 5px;
+    border-left: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+    transform: rotate(-45deg);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .check-text {
+    font-size: 13px;
+    color: var(--offwhite);
+    line-height: 1.5;
+    transition: color 0.2s;
+  }
+  .check-tag {
+    position: absolute;
+    top: 8px; right: 10px;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    font-family: 'Didact Gothic', sans-serif;
+  }
+
+  /* ─── PROGRESS ─── */
+  .progress-section {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .progress-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    min-width: 80px;
+  }
+  .progress-bar-wrap {
+    flex: 1;
+    height: 2px;
+    background: var(--charcoal);
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    min-width: 60px;
+    text-align: right;
+  }
+
+  /* ─── DIVIDER ─── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .divider-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--gold-dim);
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── TIPS CARD ─── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+  .tip-card {
+    background: var(--black);
+    padding: 1.5rem;
+  }
+  .tip-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tip-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+  .tip-body {
+    font-size: 12px;
+    color: var(--gray-light);
+    line-height: 1.6;
+  }
+
+  /* ─── QUOTE ─── */
+  .editorial-quote {
+    border-left: 3px solid var(--gold);
+    padding: 1.25rem 2rem;
+    margin: 2rem 0;
+    background: var(--black2);
+  }
+  .editorial-quote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--offwhite);
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+  .editorial-quote cite {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    display: block;
+    margin-top: 0.75rem;
+    font-style: normal;
+  }
+
+  /* ─── CRISIS BOX ─── */
+  .crisis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+  .crisis-card {
+    background: var(--black);
+    padding: 1.5rem;
+  }
+  .crisis-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.75rem;
+  }
+  .crisis-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--white);
+    margin-bottom: 0.875rem;
+    letter-spacing: 0.02em;
+  }
+  .crisis-steps {
+    list-style: none;
+    padding: 0;
+    counter-reset: step;
+  }
+  .crisis-steps li {
+    counter-increment: step;
+    font-size: 12px;
+    color: var(--gray-light);
+    padding: 5px 0 5px 24px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    line-height: 1.5;
+  }
+  .crisis-steps li:last-child { border-bottom: none; }
+  .crisis-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    color: var(--gold-dim);
+    font-style: italic;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    margin-top: 3rem;
+    background: var(--black2);
+  }
+  .footer p {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    line-height: 2;
+  }
+  .footer strong { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .hero-top { flex-direction: column; }
+    .hero-right { width: 100%; height: 120px; }
+    .hero-right::before { display: none; }
+    .crisis-grid { grid-template-columns: 1fr; }
+    .meta-strip { flex-wrap: wrap; }
+    .meta-item { flex: 1 1 50%; border-bottom: 1px solid var(--border); }
+    .progress-section { flex-wrap: wrap; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-top">
+    <div class="hero-left">
+      <div class="hero-issue">WOW PM Bootcamp 2.0 &nbsp;·&nbsp; Воркшоп №2</div>
+      <h1>Demo<br><em>Checklist</em></h1>
+      <p class="hero-sub">Все, що потрібно знати, щоб провести демо на рівні Runway Fashion Week — підготовка, проведення та закриття.</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-number">02<span>✦</span></div>
+      <div class="hero-caption">Workshop Issue</div>
+    </div>
+  </div>
+  <div class="meta-strip">
+    <div class="meta-item"><span>✦</span> Фасилітатор: Аня Клімушка</div>
+    <div class="meta-item"><span>✦</span> Тема: Demo Management</div>
+    <div class="meta-item"><span>✦</span> Продукт: Craisee.com</div>
+    <div class="meta-item"><span>✦</span> ~2 год інтенсиву</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- PROGRESS -->
+  <div class="progress-section">
+    <div class="progress-label">Прогрес</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-count" id="progressCount">0 / 0</div>
+  </div>
+
+  <!-- PHASE 1: ПІДГОТОВКА -->
+  <div class="phase" id="phase1">
+    <div class="phase-header">
+      <div class="phase-num">I.</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Before the Show</div>
+        <div class="phase-title"><em>Підготовка</em> до демо</div>
+      </div>
+    </div>
+    <div class="checklist-grid">
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Узгодити дату демо з клієнтом</div>
+        <span class="check-tag">Date</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Визначити аудиторію: хто буде присутній на зустрічі</div>
+        <span class="check-tag">Audience</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Визначити ціль демо — що хочемо досягти</div>
+        <span class="check-tag">Goal</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Підготувати агенду та план проведення</div>
+        <span class="check-tag">Agenda</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Проінформувати команду про демо</div>
+        <span class="check-tag">Team</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Створити івент у календарі з усіма учасниками</div>
+        <span class="check-tag">Calendar</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Підготувати дані для демонстрації (чисті, реалістичні)</div>
+        <span class="check-tag">Data</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Запровадити Code Freeze перед демо</div>
+        <span class="check-tag">Dev</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Врахувати питання клієнта з попередніх зустрічей</div>
+        <span class="check-tag">Client</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Визначити презентера та саппортера</div>
+        <span class="check-tag">Roles</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Провести Internal Demo — репетиція всередині команди</div>
+        <span class="check-tag">Rehearsal</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Підготувати Plan B: скріни, відео, альтернативне демо</div>
+        <span class="check-tag">Plan B</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Підготувати питання для фасилітації тиші на демо</div>
+        <span class="check-tag">Facilitation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <span class="divider-text">— The show must go on —</span>
+  </div>
+
+  <!-- PHASE 2: ПРОВЕДЕННЯ -->
+  <div class="phase" id="phase2">
+    <div class="phase-header">
+      <div class="phase-num">II.</div>
+      <div class="phase-title-block">
+        <div class="phase-label">On the Runway</div>
+        <div class="phase-title"><em>Проведення</em> демо</div>
+      </div>
+    </div>
+    <div class="checklist-grid">
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Увімкнути запис зустрічі</div>
+        <span class="check-tag">Record</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Представити команду та агенду</div>
+        <span class="check-tag">Intro</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Надати контекст: де ми були, що зробили</div>
+        <span class="check-tag">Context</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Показати фічі / результат роботи по агенді</div>
+        <span class="check-tag">Demo</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Фасилітувати зустріч — ставити прості запитання клієнту</div>
+        <span class="check-tag">Facilitation</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Паркувати off-topic питання у Parking Lot</div>
+        <span class="check-tag">Parking Lot</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Зібрати фідбек — техніка "Світлофор" (🟢🟡🔴)</div>
+        <span class="check-tag">Feedback</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Повернутись до Parking Lot питань наприкінці</div>
+        <span class="check-tag">Parking Lot</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Зафіксувати баги та зауваження</div>
+        <span class="check-tag">Bugs</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <span class="divider-text">— After the final bow —</span>
+  </div>
+
+  <!-- PHASE 3: ЗАКРИТТЯ -->
+  <div class="phase" id="phase3">
+    <div class="phase-header">
+      <div class="phase-num">III.</div>
+      <div class="phase-title-block">
+        <div class="phase-label">The Aftermath</div>
+        <div class="phase-title"><em>Закриття</em> демо</div>
+      </div>
+    </div>
+    <div class="checklist-grid">
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Узгодити наступні кроки для обох сторін</div>
+        <span class="check-tag">Next Steps</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Надіслати Summary + Follow-up листа з прийнятими рішеннями</div>
+        <span class="check-tag">Follow-up</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Отримати фідбек клієнта на Summary — пушити якщо тихо</div>
+        <span class="check-tag">Feedback</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Поділитись записом демо (Async Demo) якщо потрібно</div>
+        <span class="check-tag">Recording</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Переконатись, що клієнт має доступ до продукту / тест-середовища</div>
+        <span class="check-tag">Access</span>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box"></div>
+        <div class="check-text">Передати команді позитивний фідбек від клієнта</div>
+        <span class="check-tag">Team</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <span class="divider-text">— What Miranda would say —</span>
+  </div>
+
+  <!-- EDITORIAL QUOTE -->
+  <div class="editorial-quote">
+    <p>"Демо — це не технічний показ. Це театр. Клієнт хоче знати: чи можете ви реалізувати мою ідею, чи рухаємось у правильному напрямку, чи можу я вашій команді довіряти і чи не переплачую."</p>
+    <cite>— Психологія демо, Воркшоп №2</cite>
+  </div>
+
+  <!-- CRISIS MANAGEMENT -->
+  <div class="section-divider">
+    <span class="divider-text">— Crisis Management —</span>
+  </div>
+
+  <div class="phase-header" style="margin-bottom: 1.25rem;">
+    <div class="phase-num" style="font-size:2rem;">✦</div>
+    <div class="phase-title-block">
+      <div class="phase-label">When things go wrong</div>
+      <div class="phase-title">Кризові <em>сценарії</em></div>
+    </div>
+  </div>
+
+  <div class="crisis-grid">
+    <div class="crisis-card">
+      <div class="crisis-label">Сценарій 01</div>
+      <div class="crisis-title">"Це не те, що ми просили"</div>
+      <ol class="crisis-steps">
+        <li>Приймаємо, не захищаємось: "Дякую, що зазначили"</li>
+        <li>Уточнюємо: "Правильно я розумію, що ви очікували..."</li>
+        <li>Перефразовуємо очікування клієнта</li>
+        <li>Пояснюємо рішення та контекст змін</li>
+        <li>Пропонуємо наступні кроки — що ми робимо далі</li>
+      </ol>
+    </div>
+    <div class="crisis-card">
+      <div class="crisis-label">Сценарій 02</div>
+      <div class="crisis-title">"А що, як це не спрацює?"</div>
+      <ol class="crisis-steps">
+        <li>Визнаємо страх: "Це справедливе занепокоєння"</li>
+        <li>Уточнюємо попередній досвід: "Розкажіть, що було раніше?"</li>
+        <li>Показуємо різницю нашого підходу з доказами</li>
+        <li>Пропонуємо пілот: 10% аудиторії, 1 місяць, відкат якщо не працює</li>
+        <li>Питаємо апрув: "Як вам така пропозиція?"</li>
+      </ol>
+    </div>
+    <div class="crisis-card">
+      <div class="crisis-label">Сценарій 03</div>
+      <div class="crisis-title">Технічний збій під час демо</div>
+      <ol class="crisis-steps">
+        <li>Зберігаємо спокій — не панікуємо публічно</li>
+        <li>Показуємо альтернативно: скріни, відео, Figma</li>
+        <li>Після зустрічі надсилаємо live-версію окремо</li>
+      </ol>
+    </div>
+    <div class="crisis-card">
+      <div class="crisis-label">Сценарій 04</div>
+      <div class="crisis-title">Зустріч захоплена питаннями</div>
+      <ol class="crisis-steps">
+        <li>Фіксуємо питання, підтверджуємо їх важливість</li>
+        <li>Паркуємо в Parking Lot — повернемось в кінці</li>
+        <li>Показуємо залишок демо в Compress Mode</li>
+        <li>Решту надсилаємо фолоупом як Async Demo</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- TIPS: TYPES OF DEMO -->
+  <div class="section-divider">
+    <span class="divider-text">— The Collection —</span>
+  </div>
+
+  <div class="phase-header" style="margin-bottom: 1.25rem;">
+    <div class="phase-num" style="font-size:2rem;">✦</div>
+    <div class="phase-title-block">
+      <div class="phase-label">Know your format</div>
+      <div class="phase-title">Типи <em>демо</em></div>
+    </div>
+  </div>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-label">Presale / Vision Demo</div>
+      <div class="tip-title">До початку роботи</div>
+      <div class="tip-body">Ціль — переконати клієнта, що ми вирішимо його проблему. Тон натхненний, впевнений. Фокус на цінності, не на технічних деталях. Проводить Sales або виділена команда.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-label">Delivery Demo</div>
+      <div class="tip-title">По завершенні спринту</div>
+      <div class="tip-body">Відповідає на питання: чи рухаємось куди треба? Фокус — що зробили, чому так, що далі. Тон прозорий, партнерський. Помилка: забуваємо про контекст де ми були.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-label">Stakeholder Demo</div>
+      <div class="tip-title">Для вищого менеджменту</div>
+      <div class="tip-body">Для інвесторів, нових ключових осіб. Мета — адресувати ризики та отримати підтримку. Закриває питання: "Чи можна довіряти цій команді?"</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-label">Async Demo</div>
+      <div class="tip-title">Pre-recorded / Loom</div>
+      <div class="tip-body">Записуємо і надсилаємо. Loom — найкращий інструмент: запис екрану + відео спікера. Безкоштовно до 5 хвилин. Клієнт переглядає у власному темпі.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-label">FAQ Demo</div>
+      <div class="tip-title">Відповіді на повторні питання</div>
+      <div class="tip-body">Збираємо питання, що повторюються, і робимо спеціальне демо по них. Може бути записаним відео або інструкцією — клієнт отримує відповіді без зустрічі.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-label">Closing Demo</div>
+      <div class="tip-title">Hand-over проєкту</div>
+      <div class="tip-body">Демонструємо весь обсяг роботи при закритті проєкту. Передаємо продукт клієнту. Великий обсяг, урочистий тон, фокус на цінності що було створено.</div>
+    </div>
+  </div>
+
+  <!-- RESET BUTTON -->
+  <div style="text-align: center; margin-top: 2rem;">
+    <button onclick="resetAll()" style="background:transparent; border:1px solid var(--gold-dim); color:var(--gold-dim); font-family:'Didact Gothic',sans-serif; font-size:11px; letter-spacing:0.25em; text-transform:uppercase; padding:10px 28px; cursor:pointer; transition:all 0.2s;">
+      Reset Checklist
+    </button>
+  </div>
+
+  <div class="footer">
+    <p>WOW PM Bootcamp 2.0 &nbsp;·&nbsp; <strong>Воркшоп №2 — Demo Management</strong><br>
+    That's all. You can go. &nbsp;·&nbsp; <strong>Аня Клімушка</strong></p>
+  </div>
+
+</div>
+
+<script>
+  function toggle(el) {
+    el.classList.toggle('done');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const all = document.querySelectorAll('.check-item');
+    const done = document.querySelectorAll('.check-item.done');
+    const pct = all.length ? (done.length / all.length) * 100 : 0;
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressCount').textContent = done.length + ' / ' + all.length;
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.check-item.done').forEach(el => el.classList.remove('done'));
+    updateProgress();
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
