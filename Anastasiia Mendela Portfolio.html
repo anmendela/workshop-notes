@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anastasiia Mendela — Delivery Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --sky-50:  #f0f9ff;
+      --sky-100: #e0f2fe;
+      --sky-200: #bae6fd;
+      --sky-300: #7dd3fc;
+      --sky-400: #38bdf8;
+      --sky-500: #0ea5e9;
+      --sky-600: #0284c7;
+      --sky-700: #0369a1;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --white: #ffffff;
+      --radius: 16px;
+      --shadow-sm: 0 2px 12px rgba(14,165,233,.08);
+      --shadow-md: 0 8px 32px rgba(14,165,233,.14);
+      --shadow-lg: 0 20px 60px rgba(14,165,233,.18);
+      --transition: all .35s cubic-bezier(.4,0,.2,1);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--sky-50);
+      color: var(--slate-700);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── SCROLLBAR ─────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--sky-50); }
+    ::-webkit-scrollbar-thumb { background: var(--sky-300); border-radius: 99px; }
+
+    /* ─── NAVIGATION ────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: center;
+      padding: 18px 24px;
+      backdrop-filter: blur(18px);
+      background: rgba(240,249,255,.82);
+      border-bottom: 1px solid rgba(186,230,253,.5);
+      transition: var(--transition);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; max-width: 1100px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--sky-600); text-decoration: none;
+      letter-spacing: .02em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .875rem; font-weight: 500;
+      color: var(--slate-600); text-decoration: none;
+      position: relative; padding-bottom: 2px;
+      transition: color .25s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: var(--sky-400);
+      border-radius: 2px;
+      transition: width .3s ease;
+    }
+    .nav-links a:hover { color: var(--sky-600); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-toggle { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--sky-600); border-radius: 2px; transition: var(--transition); }
+
+    /* ─── HERO ──────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      background:
+        radial-gradient(ellipse 70% 50% at 80% 20%, rgba(186,230,253,.55) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 10% 80%, rgba(224,242,254,.7) 0%, transparent 55%),
+        linear-gradient(160deg, #f0f9ff 0%, #e0f2fe 45%, #f0f9ff 100%);
+      overflow: hidden;
+    }
+    .hero-bubbles {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .bubble {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(186,230,253,.45), rgba(224,242,254,.1));
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(0) scale(1);   opacity: .6; }
+      50%  { transform: translateY(-40px) scale(1.05); opacity: .9; }
+      100% { transform: translateY(0) scale(1);   opacity: .6; }
+    }
+    .hero-content {
+      text-align: center; max-width: 780px;
+      position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(186,230,253,.55);
+      color: var(--sky-700);
+      border: 1px solid rgba(125,211,252,.6);
+      border-radius: 99px;
+      padding: 6px 20px;
+      font-size: .8rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      color: var(--slate-800);
+      line-height: 1.12;
+      margin-bottom: 16px;
+      letter-spacing: -.01em;
+    }
+    .hero-name span { color: var(--sky-500); }
+    .hero-title {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-weight: 500; color: var(--sky-600);
+      margin-bottom: 22px;
+      letter-spacing: .02em;
+    }
+    .hero-tagline {
+      font-size: clamp(.9rem, 2vw, 1.05rem);
+      color: var(--slate-600);
+      max-width: 600px; margin: 0 auto 40px;
+      line-height: 1.75;
+    }
+    .hero-cta {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 30px; border-radius: 99px;
+      font-size: .9rem; font-weight: 600;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: var(--transition);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--sky-500), var(--sky-600));
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(14,165,233,.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(14,165,233,.45);
+    }
+    .btn-secondary {
+      background: var(--white);
+      color: var(--sky-600);
+      border: 1.5px solid var(--sky-200);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-secondary:hover {
+      background: var(--sky-50);
+      border-color: var(--sky-300);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--sky-400); font-size: .75rem; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      animation: bounce 2.4s ease-in-out infinite;
+    }
+    .hero-scroll svg { width: 20px; height: 20px; }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+    /* ─── SECTIONS COMMON ───────────────────────────────── */
+    section { padding: 100px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .75rem; font-weight: 700;
+      color: var(--sky-500); letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-label::before {
+      content: ''; display: block;
+      width: 24px; height: 2px;
+      background: var(--sky-400); border-radius: 2px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700; color: var(--slate-800);
+      margin-bottom: 56px; line-height: 1.2;
+    }
+
+    /* ─── ABOUT ─────────────────────────────────────────── */
+    #about { background: var(--white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px; align-items: start;
+    }
+    .about-text p {
+      font-size: 1rem; color: var(--slate-600);
+      margin-bottom: 18px; line-height: 1.8;
+    }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+      margin-top: 8px;
+    }
+    .stat-card {
+      background: var(--sky-50);
+      border: 1px solid var(--sky-100);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--sky-200);
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700; color: var(--sky-500);
+      line-height: 1;
+    }
+    .stat-desc { font-size: .8rem; color: var(--slate-600); margin-top: 6px; font-weight: 500; }
+    .about-right { display: flex; flex-direction: column; gap: 20px; }
+    .info-card {
+      background: linear-gradient(135deg, var(--sky-50), var(--sky-100));
+      border: 1px solid var(--sky-200);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .info-card h4 {
+      font-size: .75rem; font-weight: 700;
+      color: var(--sky-500); letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .info-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 12px;
+    }
+    .info-row:last-child { margin-bottom: 0; }
+    .info-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .info-icon svg { width: 16px; height: 16px; color: var(--sky-500); }
+    .info-row span { font-size: .875rem; color: var(--slate-600); }
+    .info-row a { color: var(--sky-600); text-decoration: none; font-weight: 500; }
+    .info-row a:hover { text-decoration: underline; }
+
+    /* ─── SKILLS ────────────────────────────────────────── */
+    #skills {
+      background: linear-gradient(160deg, var(--sky-50) 0%, #e8f4fd 50%, var(--sky-50) 100%);
+    }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    }
+    .skill-group {
+      background: var(--white);
+      border: 1px solid var(--sky-100);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: var(--transition);
+    }
+    .skill-group:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--sky-200);
+    }
+    .skill-group-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--sky-100), var(--sky-200));
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .skill-group-icon svg { width: 22px; height: 22px; color: var(--sky-600); }
+    .skill-group h3 {
+      font-size: .9rem; font-weight: 700;
+      color: var(--slate-700); margin-bottom: 16px;
+      letter-spacing: .02em;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 5px 13px;
+      border-radius: 99px;
+      font-size: .775rem; font-weight: 500;
+      background: var(--sky-50);
+      border: 1px solid var(--sky-200);
+      color: var(--sky-700);
+      transition: var(--transition);
+    }
+    .tag:hover {
+      background: var(--sky-100);
+      border-color: var(--sky-300);
+      transform: translateY(-1px);
+    }
+    .tag.accent {
+      background: linear-gradient(135deg, var(--sky-100), var(--sky-200));
+      border-color: var(--sky-300);
+      font-weight: 600;
+    }
+
+    /* ─── EXPERIENCE ────────────────────────────────────── */
+    #experience { background: var(--white); }
+    .timeline {
+      position: relative;
+      padding-left: 36px;
+    }
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 6px; top: 8px; bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--sky-300), var(--sky-200), transparent);
+      border-radius: 2px;
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 56px;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      position: absolute; left: -36px; top: 6px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--sky-400);
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 3px var(--sky-200);
+      transition: var(--transition);
+    }
+    .timeline-item:hover .timeline-dot {
+      background: var(--sky-500);
+      box-shadow: 0 0 0 4px var(--sky-200), 0 0 12px rgba(14,165,233,.3);
+    }
+    .timeline-card {
+      background: var(--sky-50);
+      border: 1px solid var(--sky-100);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: var(--transition);
+    }
+    .timeline-card:hover {
+      background: var(--white);
+      border-color: var(--sky-200);
+      box-shadow: var(--shadow-md);
+      transform: translateX(6px);
+    }
+    .timeline-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 6px;
+    }
+    .timeline-company {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--slate-800);
+    }
+    .timeline-period {
+      display: inline-flex; align-items: center;
+      background: var(--sky-100);
+      color: var(--sky-700);
+      border: 1px solid var(--sky-200);
+      border-radius: 99px;
+      padding: 4px 14px;
+      font-size: .775rem; font-weight: 600;
+      white-space: nowrap;
+    }
+    .timeline-role {
+      font-size: .95rem; font-weight: 600;
+      color: var(--sky-600); margin-bottom: 16px;
+    }
+    .timeline-card ul { list-style: none; padding: 0; }
+    .timeline-card ul li {
+      position: relative; padding-left: 20px;
+      font-size: .875rem; color: var(--slate-600);
+      margin-bottom: 8px; line-height: 1.65;
+    }
+    .timeline-card ul li::before {
+      content: ''; position: absolute;
+      left: 0; top: 9px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--sky-400);
+    }
+    .timeline-badge {
+      display: inline-block;
+      background: rgba(14,165,233,.1);
+      color: var(--sky-600);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: .75rem; font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    /* ─── EDUCATION ─────────────────────────────────────── */
+    #education {
+      background: linear-gradient(160deg, var(--sky-50) 0%, var(--sky-100) 100%);
+    }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .edu-card {
+      background: var(--white);
+      border: 1px solid var(--sky-100);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .edu-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--sky-400), var(--sky-300));
+    }
+    .edu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--sky-200);
+    }
+    .edu-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--sky-100), var(--sky-200));
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px;
+    }
+    .edu-icon svg { width: 24px; height: 24px; color: var(--sky-600); }
+    .edu-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--slate-800); margin-bottom: 6px;
+    }
+    .edu-card .edu-sub {
+      font-size: .85rem; color: var(--sky-600);
+      font-weight: 500; margin-bottom: 10px;
+    }
+    .edu-card .edu-detail {
+      font-size: .825rem; color: var(--slate-600);
+    }
+    .cert-list { display: flex; flex-direction: column; gap: 14px; }
+    .cert-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px;
+      background: var(--sky-50);
+      border: 1px solid var(--sky-100);
+      border-radius: 10px;
+      transition: var(--transition);
+    }
+    .cert-item:hover {
+      background: var(--sky-100);
+      border-color: var(--sky-200);
+    }
+    .cert-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--sky-400); margin-top: 6px; flex-shrink: 0;
+    }
+    .cert-name { font-size: .875rem; font-weight: 600; color: var(--slate-700); }
+    .cert-issuer { font-size: .775rem; color: var(--slate-600); margin-top: 2px; }
+
+    /* ─── LANGUAGES ─────────────────────────────────────── */
+    .lang-grid { display: flex; gap: 20px; margin-top: 32px; flex-wrap: wrap; }
+    .lang-card {
+      flex: 1; min-width: 160px;
+      background: var(--white);
+      border: 1px solid var(--sky-100);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .lang-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--sky-200);
+    }
+    .lang-name { font-size: 1rem; font-weight: 700; color: var(--slate-700); margin-bottom: 6px; }
+    .lang-level { font-size: .825rem; color: var(--sky-600); font-weight: 500; }
+    .lang-bar {
+      width: 100%; height: 4px;
+      background: var(--sky-100); border-radius: 99px;
+      margin-top: 12px; overflow: hidden;
+    }
+    .lang-bar-fill { height: 100%; background: linear-gradient(90deg, var(--sky-400), var(--sky-500)); border-radius: 99px; transition: width 1.2s ease; }
+
+    /* ─── CONTACT ───────────────────────────────────────── */
+    #contact {
+      background: linear-gradient(160deg, var(--sky-600) 0%, var(--sky-700) 100%);
+      color: var(--white);
+    }
+    #contact .section-label { color: var(--sky-200); }
+    #contact .section-label::before { background: var(--sky-300); }
+    #contact .section-title { color: var(--white); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .contact-card {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius);
+      padding: 28px;
+      backdrop-filter: blur(12px);
+      transition: var(--transition);
+      text-decoration: none; display: block;
+    }
+    .contact-card:hover {
+      background: rgba(255,255,255,.2);
+      border-color: rgba(255,255,255,.35);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.15);
+    }
+    .contact-card-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .contact-card-icon svg { width: 22px; height: 22px; color: var(--white); }
+    .contact-card-label {
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--sky-200); margin-bottom: 4px;
+    }
+    .contact-card-value {
+      font-size: .95rem; font-weight: 600; color: var(--white);
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────── */
+    footer {
+      background: var(--sky-700);
+      color: var(--sky-200);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: .8rem;
+    }
+    footer a { color: var(--sky-300); text-decoration: none; }
+    footer a:hover { color: var(--white); }
+
+    /* ─── REVEAL ANIMATIONS ─────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .65s cubic-bezier(.4,0,.2,1), transform .65s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0; transform: translateX(-30px);
+      transition: opacity .65s cubic-bezier(.4,0,.2,1), transform .65s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0; transform: translateX(30px);
+      transition: opacity .65s cubic-bezier(.4,0,.2,1), transform .65s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    .delay-1 { transition-delay: .1s; }
+    .delay-2 { transition-delay: .2s; }
+    .delay-3 { transition-delay: .3s; }
+    .delay-4 { transition-delay: .4s; }
+    .delay-5 { transition-delay: .5s; }
+    .delay-6 { transition-delay: .6s; }
+
+    /* ─── RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 14px 18px; }
+      .nav-links { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(240,249,255,.97); backdrop-filter: blur(20px); justify-content: center; align-items: center; gap: 2.5rem; z-index: 99; }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.1rem; }
+      .nav-toggle { display: flex; z-index: 101; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      section { padding: 72px 18px; }
+      .timeline { padding-left: 28px; }
+      .timeline-dot { left: -28px; }
+      .timeline-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#hero">Anastasiia Mendela</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bubbles" id="bubbles"></div>
+    <div class="hero-content">
+      <div class="hero-badge reveal">Delivery Manager · Open to Opportunities</div>
+      <h1 class="hero-name reveal delay-1">
+        Anastasiia<br><span>Mendela</span>
+      </h1>
+      <p class="hero-title reveal delay-2">GenAI &amp; Cloud Infrastructure Delivery</p>
+      <p class="hero-tagline reveal delay-3">
+        3+ years driving end-to-end delivery across cloud, DevOps, and AI-powered products — from zero to production, at scale, across borders.
+      </p>
+      <div class="hero-cta reveal delay-4">
+        <a href="#experience" class="btn btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
+          View Experience
+        </a>
+        <a href="#contact" class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+          Get In Touch
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      Scroll
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <p class="section-label reveal">About Me</p>
+      <h2 class="section-title reveal delay-1">Turning complexity into<br>clarity — and delivery.</h2>
+      <div class="about-grid">
+        <div class="about-text reveal-left">
+          <p>
+            I'm a Delivery Manager with <strong>3+ years of end-to-end delivery experience</strong> across cloud infrastructure, DevOps, and AI-powered product initiatives. I thrive at the intersection of technical strategy and human coordination.
+          </p>
+          <p>
+            I've led <strong>10+ concurrent projects and 20 workstreams</strong>, managing cross-functional engineering teams of up to 15 across Germany, Israel, Italy, and the UK. From coordinating cloud migrations from scratch to production, to launching a live marketplace of 160+ AI tools within 6 months — I deliver.
+          </p>
+          <p>
+            My approach is rooted in <strong>Agile delivery, stakeholder transparency, and proactive risk management</strong>. I believe great delivery is about removing blockers, building trust, and keeping teams moving — in any language, timezone, or cloud.
+          </p>
+          <div class="about-stats">
+            <div class="stat-card reveal delay-2">
+              <div class="stat-number">10+</div>
+              <div class="stat-desc">Concurrent Projects Managed</div>
+            </div>
+            <div class="stat-card reveal delay-3">
+              <div class="stat-number">15</div>
+              <div class="stat-desc">Engineers Led Cross-Functionally</div>
+            </div>
+            <div class="stat-card reveal delay-4">
+              <div class="stat-number">160+</div>
+              <div class="stat-desc">AI Tools Launched in Marketplace</div>
+            </div>
+            <div class="stat-card reveal delay-5">
+              <div class="stat-number">$50K</div>
+              <div class="stat-desc">Budget Managed per Project</div>
+            </div>
+          </div>
+        </div>
+        <div class="about-right reveal-right">
+          <div class="info-card">
+            <h4>Personal Details</h4>
+            <div class="info-row">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <span>Bucharest, Romania</span>
+            </div>
+            <div class="info-row">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <span><a href="mailto:an.mendela@gmail.com">an.mendela@gmail.com</a></span>
+            </div>
+            <div class="info-row">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              </div>
+              <span><a href="tel:+380958760692">+380 (95) 876 06 92</a></span>
+            </div>
+            <div class="info-row">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+              </div>
+              <span><a href="https://linkedin.com/in/anastasiia-mendela" target="_blank">LinkedIn: Anastasiia Mendela</a></span>
+            </div>
+          </div>
+          <div class="info-card">
+            <h4>Languages</h4>
+            <div class="info-row" style="margin-bottom:14px;">
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                  <span style="font-size:.875rem;font-weight:600;color:var(--slate-700)">English</span>
+                  <span style="font-size:.775rem;color:var(--sky-600);font-weight:500">B2+ Upper-Intermediate</span>
+                </div>
+                <div class="lang-bar"><div class="lang-bar-fill" data-width="75%" style="width:0"></div></div>
+              </div>
+            </div>
+            <div class="info-row" style="margin-bottom:0;">
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                  <span style="font-size:.875rem;font-weight:600;color:var(--slate-700)">Ukrainian</span>
+                  <span style="font-size:.775rem;color:var(--sky-600);font-weight:500">Native</span>
+                </div>
+                <div class="lang-bar"><div class="lang-bar-fill" data-width="100%" style="width:0"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-inner">
+      <p class="section-label reveal">Expertise</p>
+      <h2 class="section-title reveal delay-1">Skills &amp; Toolset</h2>
+      <div class="skills-grid">
+        <div class="skill-group reveal delay-1">
+          <div class="skill-group-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <h3>Delivery &amp; Management</h3>
+          <div class="tags">
+            <span class="tag accent">End-to-end Delivery</span>
+            <span class="tag">Stakeholder Management</span>
+            <span class="tag">Risk Management</span>
+            <span class="tag">P&amp;L / Budget Control</span>
+            <span class="tag">Change Management</span>
+            <span class="tag">Conflict Resolution</span>
+            <span class="tag">Client Communication</span>
+          </div>
+        </div>
+        <div class="skill-group reveal delay-2">
+          <div class="skill-group-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <h3>Agile &amp; Frameworks</h3>
+          <div class="tags">
+            <span class="tag accent">Agile</span>
+            <span class="tag accent">Scrum</span>
+            <span class="tag accent">Kanban</span>
+            <span class="tag">Sprint Planning</span>
+            <span class="tag">Backlog Grooming</span>
+            <span class="tag">Retrospectives</span>
+            <span class="tag">Cross-functional Teams</span>
+          </div>
+        </div>
+        <div class="skill-group reveal delay-3">
+          <div class="skill-group-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+          </div>
+          <h3>Cloud &amp; Infrastructure</h3>
+          <div class="tags">
+            <span class="tag accent">AWS</span>
+            <span class="tag accent">GCP</span>
+            <span class="tag accent">Azure</span>
+            <span class="tag">Kubernetes</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">DevOps</span>
+            <span class="tag">FinOps</span>
+            <span class="tag">IoT</span>
+          </div>
+        </div>
+        <div class="skill-group reveal delay-4">
+          <div class="skill-group-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          </div>
+          <h3>GenAI &amp; Product</h3>
+          <div class="tags">
+            <span class="tag accent">GenAI Delivery</span>
+            <span class="tag">AI Tool Deployment</span>
+            <span class="tag">Product Lifecycle</span>
+            <span class="tag">Marketplace Launch</span>
+            <span class="tag">Technical Roadmaps</span>
+          </div>
+        </div>
+        <div class="skill-group reveal delay-5">
+          <div class="skill-group-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <h3>PM Tools</h3>
+          <div class="tags">
+            <span class="tag">Jira</span>
+            <span class="tag">Confluence</span>
+            <span class="tag">Notion</span>
+            <span class="tag">Asana</span>
+            <span class="tag">Trello</span>
+            <span class="tag">MS Office</span>
+            <span class="tag">Google Workspace</span>
+          </div>
+        </div>
+        <div class="skill-group reveal delay-6">
+          <div class="skill-group-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          </div>
+          <h3>Communication</h3>
+          <div class="tags">
+            <span class="tag">Slack</span>
+            <span class="tag">MS Teams</span>
+            <span class="tag">Zoom</span>
+            <span class="tag">Stakeholder Reporting</span>
+            <span class="tag">Executive Presentations</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-inner">
+      <p class="section-label reveal">Career</p>
+      <h2 class="section-title reveal delay-1">Work Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-company">Profisea</div>
+              <span class="timeline-period">Dec 2024 – Present</span>
+            </div>
+            <div class="timeline-role">Project Manager</div>
+            <div class="timeline-badge">🚀 Current Role</div>
+            <ul>
+              <li>Drove end-to-end delivery of cloud migration projects from inception to production within 1–3 month cycles, coordinating DevOps engineering across the organization to meet client timelines.</li>
+              <li>Led cross-functional teams of up to 15 engineers across <strong>10+ concurrent projects and 20 workstreams</strong>, aligning stakeholders and clients across Germany, Israel, Italy, and the UK.</li>
+              <li>Managed end-to-end stakeholder communication across <strong>5–10 active client accounts simultaneously</strong>, translating infrastructure requirements into clear delivery expectations.</li>
+              <li>Standardized Agile delivery practices — sprint planning, backlog grooming, retrospectives — reducing delivery friction and improving predictability of release cycles.</li>
+              <li>Managed project budgets up to <strong>$50K on fixed-price engagements</strong> — preventing overspend by restructuring backlog prioritization and replanning delivery schedules.</li>
+              <li>Produced customer-facing delivery reports for 5–10 international accounts, increasing stakeholder confidence and supporting account retention.</li>
+              <li>Fostered a collaborative environment by mediating technical and business conflicts, enabling sustained delivery velocity across DevOps and engineering squads.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal delay-2">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-company">TELENORMA Holding AG</div>
+              <span class="timeline-period">May 2023 – Dec 2024</span>
+            </div>
+            <div class="timeline-role">Project Manager</div>
+            <div class="timeline-badge">🏆 Management Trainee Program</div>
+            <ul>
+              <li>Selected into a team of 5 via Management Trainee Program — developed and launched a <strong>live GenAI marketplace within 6 months</strong>. Received diploma and offer to continue as Junior Manager.</li>
+              <li>Coordinated integration of <strong>160+ AI tools</strong> into a live marketplace, overseeing the product development lifecycle end-to-end and driving GenAI adoption across the platform.</li>
+              <li>Defined and assigned technical requirements to developers and designers, reducing ambiguity and accelerating delivery from concept to live product within 6 months.</li>
+              <li>Owned change management throughout the product development lifecycle, ensuring scope changes were communicated to stakeholders without disrupting sprint commitments.</li>
+              <li>Delivered executive-level progress reports to senior management and led stakeholder communications in English across international teams throughout a high-visibility product launch.</li>
+              <li>Applied Agile (Scrum/Kanban) within a high-growth German IT environment, establishing delivery structures that scaled from a 5-person trainee team to full production launch.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-inner">
+      <p class="section-label reveal">Background</p>
+      <h2 class="section-title reveal delay-1">Education &amp; Certifications</h2>
+      <div class="edu-grid">
+        <div class="edu-card reveal-left">
+          <div class="edu-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/></svg>
+          </div>
+          <h3>Kyiv National University of Construction and Architecture</h3>
+          <p class="edu-sub">Faculty of Automation &amp; IT · Cybersecurity</p>
+          <p class="edu-detail">Strong technical foundation in information technology, automation systems, and cybersecurity principles.</p>
+        </div>
+
+        <div class="edu-card reveal-right">
+          <div class="edu-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+          </div>
+          <h3>Certifications</h3>
+          <p class="edu-sub">Professional Development</p>
+          <div class="cert-list">
+            <div class="cert-item">
+              <div class="cert-dot"></div>
+              <div>
+                <div class="cert-name">Project Management in IT</div>
+                <div class="cert-issuer">Taras Fedoruk · Laba · 55 hours · 2023</div>
+              </div>
+            </div>
+            <div class="cert-item">
+              <div class="cert-dot"></div>
+              <div>
+                <div class="cert-name">Team Management</div>
+                <div class="cert-issuer">Larisa Stirska · Laba · 18 hours · 2023</div>
+              </div>
+            </div>
+            <div class="cert-item">
+              <div class="cert-dot"></div>
+              <div>
+                <div class="cert-name">IT Project Management</div>
+                <div class="cert-issuer">Udemy</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <p class="section-label reveal">Let's Connect</p>
+      <h2 class="section-title reveal delay-1">Get In Touch</h2>
+      <div class="contact-grid">
+        <a href="mailto:an.mendela@gmail.com" class="contact-card reveal delay-1">
+          <div class="contact-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="contact-card-label">Email</div>
+          <div class="contact-card-value">an.mendela@gmail.com</div>
+        </a>
+        <a href="tel:+380958760692" class="contact-card reveal delay-2">
+          <div class="contact-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          </div>
+          <div class="contact-card-label">Phone</div>
+          <div class="contact-card-value">+380 (95) 876 06 92</div>
+        </a>
+        <a href="https://linkedin.com/in/anastasiia-mendela" target="_blank" rel="noopener" class="contact-card reveal delay-3">
+          <div class="contact-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </div>
+          <div class="contact-card-label">LinkedIn</div>
+          <div class="contact-card-value">Anastasiia Mendela</div>
+        </a>
+        <div class="contact-card reveal delay-4" style="cursor:default;">
+          <div class="contact-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <div class="contact-card-label">Location</div>
+          <div class="contact-card-value">Bucharest, Romania</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Anastasiia Mendela · Delivery Manager · GenAI &amp; Cloud Infrastructure</p>
+    <p style="margin-top:6px">Built with ☁️ and sky-blue precision.</p>
+  </footer>
+
+  <script>
+    // ─── MOBILE NAV ────────────────────────────────────────
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      links.classList.toggle('open');
+      const spans = toggle.querySelectorAll('span');
+      if (links.classList.contains('open')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+      } else {
+        spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+      }
+    });
+    links.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        links.classList.remove('open');
+        toggle.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+      });
+    });
+
+    // ─── SCROLL REVEAL ────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          // Trigger language bar animation
+          e.target.querySelectorAll && e.target.querySelectorAll('.lang-bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width;
+          });
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+      observer.observe(el);
+      // Also check lang bars inside any already-visible parent
+    });
+
+    // Also observe the about section for lang bars
+    const langObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.lang-bar-fill').forEach(bar => {
+            setTimeout(() => { bar.style.width = bar.dataset.width; }, 300);
+          });
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('#about').forEach(el => langObserver.observe(el));
+
+    // ─── FLOATING BUBBLES ────────────────────────────────
+    const bubbleContainer = document.getElementById('bubbles');
+    for (let i = 0; i < 12; i++) {
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      const size = Math.random() * 120 + 40;
+      b.style.cssText = `
+        width:${size}px; height:${size}px;
+        left:${Math.random()*100}%;
+        top:${Math.random()*100}%;
+        animation-duration:${Math.random()*6+5}s;
+        animation-delay:${Math.random()*4}s;
+      `;
+      bubbleContainer.appendChild(b);
+    }
+
+    // ─── HERO ENTRANCE ───────────────────────────────────
+    window.addEventListener('load', () => {
+      document.querySelectorAll('#hero .reveal').forEach(el => {
+        setTimeout(() => el.classList.add('visible'), 100);
+      });
+    });
+
+    // ─── NAV SHADOW ON SCROLL ────────────────────────────
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').style.boxShadow =
+        window.scrollY > 20 ? '0 4px 24px rgba(14,165,233,.1)' : 'none';
+    }, { passive: true });
+
+    // ─── ACTIVE NAV LINK ─────────────────────────────────
+    const sections = document.querySelectorAll('section[id]');
+    const navAs = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+      });
+      navAs.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--sky-600)' : '';
+      });
+    }, { passive: true });
+  </script>
+</body>
+</html>
